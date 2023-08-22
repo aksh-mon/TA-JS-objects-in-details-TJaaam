@@ -4,6 +4,13 @@
 */
 
 // myMap function goes here
+Array.prototype.myMap = function(callback) {
+  const result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i, this));
+  }
+  return result;
+};
 
 // Test the myMap function you created above
 
@@ -29,6 +36,21 @@ After adding the function test it using the code below.
 */
 
 // You code goes here
+function myFilter(callback) {
+  const newArray = [];
+
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      newArray.push(this[i]);
+    }
+  }
+
+  return newArray;
+}
+
+// Add myFilter to Array prototype
+Array.prototype.myFilter = myFilter;
+
 
 let even = numbers.myFilter(function (num) {
   return num % 2 === 0;
@@ -50,6 +72,20 @@ Make sure it does not the changes the original array.
 */
 
 // You code goes here
+function shuffle() {
+  const arr = [...this]; // Create a copy of the original array
+  for (let i = arr.length - 1; i > 0; i--) {
+    // Generate a random index between 0 and i (inclusive)
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    
+    // Swap elements at randomIndex and i
+    [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
+  }
+  return arr;
+}
+
+// Add shuffle to Array prototype
+Array.prototype.shuffle = shuffle;
 
 // Test to check the shuffle method (It will return different output every time you call)
 console.log(numbers.shuffle());
@@ -64,7 +100,15 @@ Unique means no element should come multiple times.
 */
 
 // You code goes here
-
+Array.prototype.unique = function () {
+  let uniqueArray = [];
+  for (let item of this) {
+    if (!uniqueArray.includes(item)) {
+      uniqueArray.push(item);
+    }
+  }
+  return uniqueArray;
+};
 // Test to check the shuffle method (It will return different output every time you call)
 let num = [1, 2, 3, 4, 2, 3, 6, 7, 7];
 let strings = 'helloworld'.split('');
@@ -78,10 +122,19 @@ array that will contain only element that is common in both the array.
 */
 
 // You code goes here
-
+Array.prototype.intersection = function (otherArray) {
+  const intersectionArray = [];
+  for (const item of this) {
+    if (otherArray.includes(item)) {
+      intersectionArray.push(item);
+    }
+  }
+  return intersectionArray;
+};
 // Test to check the shuffle method (It will return different output every time you call)
 console.log(num.intersection([2, 7, 11, 32])); // [2, 7]
 console.log(strings.intersection('heyworld'.split(''))); // ['h', 'e', 'o', 'w', 'r', 'l', 'd']
+
 
 /*
 6. Add a method named `chunk` to Array.prototype. The method chunk will accept one parameter `length`
@@ -90,7 +143,13 @@ chunk will be the remaining elements. `length` should default to 1.
 */
 
 // You code goes here
-
+Array.prototype.chunk = function (length = 1) {
+  const chunkedArray = [];
+  for (let i = 0; i < this.length; i += length) {
+    chunkedArray.push(this.slice(i, i + length));
+  }
+  return chunkedArray;
+};
 // Test to check the shuffle method (It will return different output every time you call)
 console.log(num.chunk(2)); // [[1, 2], [3, 4], [2, 3], [6, 7], [7]]
 console.log(num.chunk()); // [[1], [2], [3], [4], [2], [3], [6], [7], [7]]
