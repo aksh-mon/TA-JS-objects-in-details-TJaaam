@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <div id="questCont">
+        <!-- Questions will be displayed here -->
+    </div>
+    <button id="nextBtn">Next Question</button>
+    <p id="score">Score: 0</p>
+
+    <script>
+        // Question Class Constructor
+        class Question {
+            constructor(title, options, correctAnswer) {
+                this.title = title;
+                this.options = options;
+                this.correctAnswer = correctAnswer;
+                this.selectedAnswer = null;
+            }
+
+            isCorrect() {
+                return this.selectedAnswer === this.correctAnswer;
+            }
+
+            createUI() {
+                const questionContainer = document.getElementById("questCont");
+                questionContainer.innerHTML = `
+                    <h3>${this.title}</h3>
+                    <ul>
+                        ${this.options.map(option => `
+                            <li>
+                                <label>
+                                    <input type="radio" name="answer" value="${option}" 
+                                    onclick="setCurrentAnswer(this.value)">
+                                    ${option}
+                                </label>
+                            </li>
+                        `).join("")}
+                    </ul>
+                `;
+            }
+        }
+
+        // Quiz class constructor
+        class Quiz {
+            constructor() {
+                this.allQuestions = [];
+                this.activeIndex = 0;
+                this.score = 0;
+            }
+
+            nextQuestion() {
+                if (this.activeIndex < this.allQuestions.length - 1) {
+                    this.activeIndex++;
+                } else {
+                    // Handle quiz completion
+                    alert("Quiz Completed! Your Score: " + this.score);
+                }
+            }
+
+            createUI() {
+                const nextButton = document.getElementById("nextBtn");
+                nextButton.addEventListener("click", () => {
+                    this.checkAnswer();
+                    this.nextQuestion();
+                    this.updateUI();
+                });
+            }
+
+            updateScore() {
+                const scoreElement = document.getElementById("score");
+                scoreElement.textContent = `Score: ${this.score}`;
+            }
+
+            updateUI() {
+                const currentQuestion = this.allQuestions[this.activeIndex];
+                if (currentQuestion) {
+                    currentQuestion.createUI();
+                }
+                this.updateScore();
+            }
+
+            checkAnswer() {
+                const currentQuestion = this.allQuestions[this.activeIndex];
+                if (currentQuestion && currentQuestion.isCorrect()) {
+                    this.score++;
+                }
+            }
+        }
+
+        function setCurrentAnswer(answer) {
+            const currentQuestion = quiz.allQuestions[quiz.activeIndex];
+            if (currentQuestion) {
+                currentQuestion.selectedAnswer = answer;
+            }
+        }
+
+        // instance
+
+        let quiz = new Quiz();
+
+        let question1 = new Question(
+            "What is the capital of France?",
+            ["Paris", "London", "Berlin"],
+            "Paris"
+        );
+
+        let question2 = new Question(
+            "What is the capital of Germany?",
+            ["Paris", "London", "Berlin"],
+            "Berlin"
+        );
+
+        let question3 = new Question(
+            "What is the capital of North Korea?",
+            ["Seoul", "Pyongyang", "Beijing"],
+            "Pyongyang"
+        );
+
+        
+        let question4 = new Question(
+            "What is the capital of South Korea?",
+            ["Seoul", "Pyongyang", "Beijing"],
+            "Seoul"
+        );
+        quiz.allQuestions.push(question1, question2,question3,question4);
+
+        quiz.createUI();
+        quiz.updateUI();
+    </script>
+</body>
+</html>

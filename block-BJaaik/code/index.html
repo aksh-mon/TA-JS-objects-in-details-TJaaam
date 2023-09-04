@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+class Person{
+    constructor(name,age,gender){
+        this.name = name;
+        this.age = age; 
+        this.gender = gender;
+    }
+    eat(){
+        console.log(`${this.name} can eat!`);
+    }
+
+    sleep(){
+        console.log(`${this.name} can sleep!`);
+    }
+    
+    walk(){
+        console.log(`${this.name} can walk!`);
+    }
+}
+
+class Player extends Person{
+    constructor(name,age,gender,sportsName){
+        super(name,age,gender);
+        this.name = name;
+        this.age = age; 
+        this.gender = gender;
+    }
+    play(){
+    console.log(`${this.name} can play!`);
+    }
+}
+
+class Teacher extends Person{
+    constructor(name,age,gender,instituteName){
+        super(name,age, gender);
+        this.name = name;
+        this.age = age; 
+        this.gender = gender;
+    }
+    teach(){
+    console.log(`${this.name} can teach!`);
+    }
+}
+
+class Artist extends Person{
+    constructor(name,age,gender,kind){
+        super(name,age,gender);
+        this.name = name;
+        this.age = age; 
+        this.gender = gender;
+    }
+    createArt(){
+    console.log(`${this.name} can create Art!`);
+    }
+}
+
+
+    </script>
+</body>
+</html>
